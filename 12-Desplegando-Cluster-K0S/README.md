@@ -3,7 +3,7 @@ En el siguiente video explico como desplegar un Cluster de Kubernetes utilizando
 
 Utilizo 2 máquinas Debian Linux, una de las máquinas se utilizará como ControlPlane y la otra máquinas como Worker.
 
-Instalar los binarios de K0S
+Instalar los binarios de K0S en el Controlplane y Worker.
 
 ```
 wget https://github.com/k0sproject/k0sctl/releases/download/v0.17.4/k0sctl-linux-x64
@@ -13,7 +13,7 @@ curl -sSLf https://get.k0s.sh | bash
 echo 'source <(k0s completion bash)' >>~/.bashrc
 ```
 
-Configurar el autocompletado del comando k0sctl 
+Configurar el autocompletado del comando k0sctl  en el Controlplane y Worker
 
 ```
 echo 'source <(k0sctl completion bash)' >>~/.bashrc
@@ -26,9 +26,7 @@ Desplegar cluster utilizando el fichero que hay en el repositorio
 k0sctl apply --config desplegar-cluster.yaml
 ```
 
-Acceder via web, configurar Wordpress y escribir una entrada a modo de prueba.
-
-Realizar el backup de Wordpress con Velero. Para ello la forma más básica es lanzando un backup a demanda
+Conectarse al Controlplane y sacar el kubeconfig.
 
 ```
 velero create backup prueba-wordpress --include-namespaces wordpress --default-volumes-to-restic=true
