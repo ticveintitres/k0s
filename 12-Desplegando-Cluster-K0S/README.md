@@ -29,39 +29,16 @@ k0sctl apply --config desplegar-cluster.yaml
 Conectarse al Controlplane y sacar el kubeconfig.
 
 ```
-velero create backup prueba-wordpress --include-namespaces wordpress --default-volumes-to-restic=true
+k0s kubeconfig admin > .kube/config
 ```
 
-Revisar el estado del backup , y comprobar que este completado y sin errores
+Revisar si ha instalado correctamente
 ```
-velero get backup
-```
-
-Ahora para comprobar que el backup se ha realizado correctamente y se han guardado los datos nuevos, borrar la aplicación de Wordpress de prueba.
-
-```
-kubectl delete -f prueba.yaml
+kubectl get nodes
+kubectl get pods -A
 ```
 
-Una vez borrada del todo ( comprobar que no exista el Namespace y los Persistent Volumes), se hace un Restore desde Velero
-```
-velero restore create prueba-restore --from-backup prueba-wordpress
-```
-
-Se comprueba que el trabajo de Restore de Velero ha finalizado.
-```
-velero get restore
-```
-
-Se comprueba que se han desplegado todos los objetos de Wordpress
-```
-kubectl get all -n wordpress
-kubectl get pv
-```
-
-Por último ingresar via web al Wordpress y comprobar que todo se ha recuperado.
-
-Si todo salio correctamente, se ha recuperado la aplicación de Wordpress desde una copia de seguridad con Velero
+Listo, cluster desplegado
 
 https://www.youtube.com/@ticveintitres
 

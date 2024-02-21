@@ -27,10 +27,21 @@ spec:
       apiVersion: k0s.k0sproject.io/v1beta1
       kind: ClusterConfig
       metadata:
-        name: ticveintitres-cluster
+        name: ticveintitres-clusteir
       spec:
+        network:
+          provider: calico
+          clusterDomain: ticveintitres.local
+          podCIDR: 10.244.0.0/24
+          serviceCIDR: 10.96.0.0/24
         images:
           calico:
             cni:
-              image: calico/cni
+              image: docker.io/calico/cni
+              version: v3.16.2
+            node:
+              image: docker.io/calico/node
+              version: v3.16.2
+            kubecontrollers:
+              image: docker.io/calico/kube-controllers
               version: v3.16.2
