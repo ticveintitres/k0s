@@ -1,5 +1,5 @@
 # 12-Desplegando Cluster K0S
-En el siguiente video explico como desplegar un Cluster de Kubernetes utilizando la solución de K0S: 
+En el siguiente video explico como desplegar un Cluster de Kubernetes utilizando la solución de K0S: https://youtu.be/Nxo5j54M1-s
 
 Utilizo 2 máquinas Debian Linux, una de las máquinas se utilizará como ControlPlane y la otra máquinas como Worker.
 
