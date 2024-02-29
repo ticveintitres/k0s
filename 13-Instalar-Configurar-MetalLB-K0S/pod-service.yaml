@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: web
+  name: web
+spec:
+  containers:
+  - image: httpd:latest
+    name: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  metallb.universe.tf/address-pool: production
+  labels:
+    run: web
+  name: web
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: web
+  type: LoadBalancer
