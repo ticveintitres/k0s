@@ -32,7 +32,6 @@ kubectl apply -f pod-service.yaml
 ```
 
 MetalLB desplegado y configurado de manera simple
-```
 
 https://www.youtube.com/@ticveintitres
 
