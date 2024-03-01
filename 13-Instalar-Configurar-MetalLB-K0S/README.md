@@ -19,7 +19,7 @@ Una vez instalados los componentes de MetalLB, para configurar una lista de dire
 kubectl apply -f ipaddresses.yaml
 ```
 
-Ahora toca configurar la capa 2, ejecutar los ficheros l2advertisement.yaml y l2config.yaml
+Ahora toca configurar la capa 2, ejecuta el fichero l2advertisement.yaml
 
 ```
 kubectl apply -f l2advertisement.yaml
