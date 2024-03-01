@@ -12,7 +12,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  metallb.universe.tf/address-pool: production
+  annotations:
+    metallb.universe.tf/address-pool: production
   labels:
     run: web
   name: web
