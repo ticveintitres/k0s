@@ -1,5 +1,5 @@
 # 13-Instalar-Configurar-MetalLB-K0S
-En el siguiente video explico como instalar y configurar MetalLB en un cluster de K0S: 
+En el siguiente video explico como instalar y configurar MetalLB en un cluster de K0S: https://youtu.be/-ispqFUu2Yg
 
 Esta descripción esta sacada de su página oficial:
 
