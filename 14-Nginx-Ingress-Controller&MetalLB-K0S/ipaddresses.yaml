@@ -4,10 +4,8 @@ metadata:
   name: ingress-nginx
   namespace: metallb-system
 spec:
-  # Production services will go here. Public IPs are expensive, so we leased
-  # just 4 of them.
   addresses:
-  - 10.23.23.100/32
+  - 10.23.23.100/32 # Aqui la IP que quiero que tenga siempre NGINX
   autoAssign: true
   serviceAllocation:
     namespaces:

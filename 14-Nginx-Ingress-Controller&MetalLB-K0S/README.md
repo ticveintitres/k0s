@@ -4,34 +4,36 @@ En el siguiente video explico como desplegar NGINX Ingress Controller junto con 
 Se configura un IPAddresses de MetalLB especifico para NGINX, modificar a conveniencia y ejecutad el archivo ipaddresses.yaml
 
 ```
-
-```
-
-Para instalar NGINX Ingress Controller lo haremos con este comando sacado de su web oficial
-
-```
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.3/config/manifests/metallb-native.yaml
-```
-
-Una vez instalados los componentes de MetalLB, para configurar una lista de direcciones IP ejecutar el fichero ipaddresses.yaml
-
-```
 kubectl apply -f ipaddresses.yaml
 ```
 
-Ahora toca configurar la capa 2, ejecuta el fichero l2advertisement.yaml
+Como se ha añadido una nueva IPAddress a MetalLB, hay que añadir esta al L2Advertisement que se creo en el video anterior.
+Se puede editar el objeto ejecutando este comando
+
+```
+kubectl edit l2advertisements.metallb.io -n metallb-system production
+```
+
+O bien ejecutando el fichero que os dejo, llamado l2advertisement.yaml, que incluye el IPAdresses nuevo. Ojo, que yo cambie de cluster y ahora mi interfaz es la "ens192", aseguraros bien de cuál es la vuestra.
 
 ```
 kubectl apply -f l2advertisement.yaml
 ```
 
-Para probar que funciona , desplegar este microservicio de prueba
+Para instalar NGINX Ingress Controller lo haremos con este comando sacado de su web oficial
 
 ```
-kubectl apply -f pod-service.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
 ```
 
-MetalLB desplegado y configurado de manera simple
+Una vez instalados los componentes de NGINX INGRESS CONTROLLER, podemos comprobar su funcionamiento con el fichero que os dejo llamado pod-service-ingress.yaml.
+En este fichero se configura un apache con un servicio de ClusterIP y un ingress. En el fichero yo he configurado que atienda a una resolución de nombre, cambiarlo a gusto.
+
+```
+kubectl apply -f pod-service-ingress.yaml
+```
+
+Nginx Ingress Controller desplegado y configurado usando MetalLB de manera simple
 
 https://www.youtube.com/@ticveintitres
 
