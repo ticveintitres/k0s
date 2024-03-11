@@ -1,0 +1,12 @@
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: production
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - production
+  - ingress-nginx
+  - kubernetes-dashboard
+  interfaces:
+  - ens192

@@ -1,5 +1,5 @@
 14-Nginx-Ingress-Controller&MetalLB-K0S
-En el siguiente video explico como desplegar NGINX Ingress Controller junto con MetalLB en un cluster de K0S: https://youtu.be/-ispqFUu2Yg
+En el siguiente video explico como desplegar NGINX Ingress Controller junto con MetalLB en un cluster de K0S: https://youtu.be/9d65SNeuzu0
 
 Se configura un IPAddresses de MetalLB especifico para NGINX, modificar a conveniencia y ejecutad el archivo ipaddresses.yaml
 
