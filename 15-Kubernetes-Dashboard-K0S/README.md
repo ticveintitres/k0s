@@ -27,9 +27,18 @@ kubectl apply -f dashboard.yaml
 ```
 
 Una vez instalados los componentes del dashboard de Kubernetes, acceder via web.
+El acceso esta configurado por Token, y por defecto no se crea ningún usuario. 
+Para configurar un usuario , hay que crear una serviceaccount y asignarle el ClusterRole cluster-admin. Usar los siguientes comandos.
 
 ```
+kubectl create sa ticveintitres -n kubernetes-dashboard
+kubectl create clusterrolebinding --clusterrole cluster-admin --serviceaccount kubernetes-dashboard:ticveintitres ticveintitres-admin
+```
 
+Para sacar el token utilizad este comando:
+
+```
+kubectl create token -n kubernetes-dashboard ticveintitres
 ```
 
 Kubernetes Dashboard instalado en el cluster de K0s
