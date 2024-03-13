@@ -12,7 +12,6 @@
 # Consulte la Licencia para el idioma específico que rige los permisos y
 # limitaciones bajo la Licencia.
 #
-# Texto traducido por ChatGPT
 apiVersion: v1
 kind: Namespace
 metadata:
