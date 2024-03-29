@@ -1,6 +1,6 @@
-17-Operando-Kubernetes-Dashboard-K0S
+17-Básicos-Kubernetes-Dashboard-K0S
 
-En el siguiente video explico como operar de forma básica el Dashboard de Kubernetes oficial: 
+En el siguiente video explico como operar de forma básica el Dashboard de Kubernetes oficial: https://youtu.be/15vrTZ6mzJU
 
 En este repositorio de código he dejado un fichero de ejemplo que podéis usar para probar Kubernetes Dashboard.
 
