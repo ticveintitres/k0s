@@ -1,4 +1,5 @@
 15-Kubernetes-Dashboard-K0S
+
 En el siguiente video explico como desplegar el Dashboard de Kubernetes oficial junto con MetalLB en un cluster de K0S: https://youtu.be/89lsxUc7tL4
 
 Se configura un IPAddresses de MetalLB especifico para el Dashboard de Kubernets, modificar a conveniencia y ejecutad el archivo ipaddresses.yaml
