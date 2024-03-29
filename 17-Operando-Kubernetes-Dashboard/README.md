@@ -2,7 +2,7 @@
 
 En el siguiente video explico como operar de forma básica el Dashboard de Kubernetes oficial: 
 
-En este repositorio de código he dejado varios ficheros de ejemplo que podéis usar para probar Kubernetes Dashboard.
+En este repositorio de código he dejado un fichero de ejemplo que podéis usar para probar Kubernetes Dashboard.
 
 Recordad, que para hacer login con el token hay que sacar el token, este comando a modo de ejemplo:
 
