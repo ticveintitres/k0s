@@ -11,7 +11,7 @@ dpkg -i k8sgpt_amd64.deb
 
 Para este ejemplo se utilizara una cuenta de OpenAI de ChatGPT. Para ello crear una Key para luego hacer login a través de k8sgpt.
 
-imagen
+![2024-03-31 16_08_53-API keys - OpenAI API — Mozilla Firefox](https://github.com/ticveintitres/k0s/assets/153328087/f0b9c58b-5bd3-41ba-91ea-f844bdf13704)
 
 Antes de comenzar, se configura el bash completion
 
