@@ -1,6 +1,6 @@
 19-K8sgpt-y-Trivy-K0S
 
-En el siguiente video explico como instalar Trivy en k8sgpt, y como utilizarlo, en K0S: 
+En el siguiente video explico como instalar Trivy en k8sgpt, y como utilizarlo, en K0S: https://youtu.be/Vf6-mgU7YfI
 
 Para activar trivy en el cluster usando k8sgpt utilizad este comando. De paso crearemos un namespace llamado k8sgpt
 
