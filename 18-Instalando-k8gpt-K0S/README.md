@@ -1,6 +1,6 @@
 18-Instalando-k8sgpt-K0S
 
-En el siguiente video explico como instalar y operar lo más basico de k8sgpt en K0S: 
+En el siguiente video explico como instalar y operar lo más basico de k8sgpt en K0S: https://youtu.be/xgpzC4Cw60E
 
 Para instalarlo en Debian utilizad este comando
 
