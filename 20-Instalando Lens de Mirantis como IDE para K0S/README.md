@@ -4,11 +4,11 @@ En el siguiente video explico como instalar Lens de Mirantis para usarlo para ge
 
 Para instalarlo , lo mejor es ir a su página de descarga y descargarse la versión para vuestro sistema operativo: https://k8slens.dev/download
 
---imagen descarga lens--
+![imagen](https://github.com/ticveintitres/k0s/assets/153328087/9a6c5a72-63d4-4e3f-a8d6-e57e2232dcde)
 
 Una vez instalado en nuestro sistema operativo, al ejecutarlo nos pedirá un registro. Nos registramos para poder acceder:
 
---imagen registro lens--
+![imagen](https://github.com/ticveintitres/k0s/assets/153328087/467b5929-6629-42ad-a770-d09d13fe658e)
 
 ```
 kubectl create ns k8sgpt
