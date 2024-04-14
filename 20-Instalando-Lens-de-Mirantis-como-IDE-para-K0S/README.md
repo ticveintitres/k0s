@@ -11,6 +11,7 @@ Una vez instalado en nuestro sistema operativo, al ejecutarlo nos pedirá un reg
 ![imagen](https://github.com/ticveintitres/k0s/assets/153328087/467b5929-6629-42ad-a770-d09d13fe658e)
 
 Una vez instalado podemos ir añadiendo extensiones, conectarnos a nuestro clusters...etc
+![imagen](https://github.com/ticveintitres/k0s/assets/153328087/946fffb5-98ce-4681-bdc6-22d088c8f632)
 
 https://www.youtube.com/@ticveintitres
 
