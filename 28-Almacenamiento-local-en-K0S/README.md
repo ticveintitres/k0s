@@ -27,9 +27,7 @@ exit
 ls /opt/volumes-k8s
 ```
 
-Para instalarlo , lo mejor es ir a su página de descarga y descargarse la versión para vuestro sistema operativo: https://k8slens.dev/download
-
-En el siguiente video explico como utilizar LongHorn como CSI de Almacenamiento para K0S
+Fácil y sencillo
 
 https://www.youtube.com/@ticveintitres
 
