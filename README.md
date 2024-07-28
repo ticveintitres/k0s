@@ -7,6 +7,6 @@ Este repositorio de GitHub reuné todo el código así como manuales relacionado
 
 https://www.youtube.com/@ticveintitres
 
-Esta ordenado y numero igual que en el canal de Youtube.
+El orden de las entradas tiene que ver con el numero de videos largos que tengo subidos en mi canal.
 
 Creado con ❤️ por Alejandro Martínez Capilla

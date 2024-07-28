@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: solucion-1
+spec: {}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: solucion-1
+  namespace: solucion-1
+  labels:
+    app: solucion-1
+spec:
+  containers:
+  - name: solucion-1
+    image: httpd:latest
+    volumeMounts:
+    - name: nfs-para-pod
+      mountPath: /usr/local/apache2/htdocs
+  volumes:
+  - name: nfs-para-pod
+    nfs:
+      server: 10.23.23.18                 # Dirección IP del servidor NFS
+      path: /opt/nfs/ticveintitres1       # Ruta del directorio compartido en el servidor NFS
+      readOnly: false                     # Configúralo a true si necesitas acceso de solo lectura
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: solucion-1
+  name: solucion-1
+  namespace: solucion-1
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: solucion-1
+  type: LoadBalancer

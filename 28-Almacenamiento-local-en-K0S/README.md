@@ -1,6 +1,6 @@
 28-Almacenamiento-local-en-K0S
 
-En el siguiente video explico como configurar almacenamiento local en K0S.
+En el siguiente video explico como configurar almacenamiento local en K0S: https://youtu.be/VicqQ-H6fq8?si=p7J1RwOAHB4vkbxE
 
 En K0S ocurre como en cualquier cluster que permita acceso a los nodos, se utiliza la plantilla de Kubernetes oficial para crear un Persistent Volume que apuntará a un directorio de uno o varios nodos.
 
