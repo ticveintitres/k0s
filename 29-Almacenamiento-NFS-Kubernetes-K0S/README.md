@@ -1,6 +1,6 @@
 29-Almacenamiento-NFS-en-Kubernetes-K0S
 
-En el siguiente video explico como configurar almacenamiento NFS en un Cluster de Kubernetes con K0S:
+En el siguiente video explico como configurar almacenamiento NFS en un Cluster de Kubernetes con K0S: https://youtu.be/_i08AVdHIk8
 
 Para mi hay 3 formas de usar el almacenamiento NFS en Kubernetes. 
 
