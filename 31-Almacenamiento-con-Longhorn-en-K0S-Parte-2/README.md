@@ -1,30 +1,29 @@
-30-Almacenamiento-con-Longhorn-en-K0S Parte 1
+30-Almacenamiento-con-Longhorn-en-K0S Parte 2
 
-En el siguiente video explico como configurar almacenamiento NFS en un Cluster de Kubernetes con K0S: https://youtu.be/i6AnSa1bCyM
+En el siguiente video explico como acceder a la web de Longhorn y darle un toque de seguridad:
 
 Revisaros el Video en Youtube , además os dejo el código usado:
 
-He usado este código de la página oficial de LongHorn para descargar y instalar: 
+Os dejo el código para crear el ingress para Longhorn, para aplicarlo usad: 
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/v1.6.2/deploy/longhorn.yaml
+kubectl apply -f ingress-longhorn.yaml
 ```
 
-Os dejo dos ficheros de despliegue de prueba con dos tipos de almacenamiento.
-
-RWO
+Para crear el secreto, necesitais las apache2-utils, para instalarlas:
 
 ```
-kubectl apply -f ejemplo-rwo.yaml
+apt install -y apache2-utils
 ```
 
-RWX
+Para crear el secreto utilizad este codigo:
 
 ```
-kubectl apply -f ejemplo-rwx.yaml
+htpasswd -c auth longhorn-user
+kubectl create secret generic longhorn-basic-auth --from-file=auth -n longhorn-system
 ```
 
-Fácil y sencillo , en el siguiente video mostraré la GUI de LongHorn
+Fácil y sencillo, más en mi canal 👍
 
 https://www.youtube.com/@ticveintitres
 
