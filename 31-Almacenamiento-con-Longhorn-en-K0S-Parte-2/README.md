@@ -1,6 +1,6 @@
 30-Almacenamiento-con-Longhorn-en-K0S Parte 1
 
-En el siguiente video explico como configurar almacenamiento con LongHorn en un Cluster de Kubernetes con K0S: https://youtu.be/i6AnSa1bCyM
+En el siguiente video explico como configurar almacenamiento NFS en un Cluster de Kubernetes con K0S: https://youtu.be/i6AnSa1bCyM
 
 Revisaros el Video en Youtube , además os dejo el código usado:
 
