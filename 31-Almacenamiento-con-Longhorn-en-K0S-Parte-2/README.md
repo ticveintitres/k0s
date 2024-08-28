@@ -1,8 +1,8 @@
-30-Almacenamiento-con-Longhorn-en-K0S Parte 2
+31-Almacenamiento-con-Longhorn-en-K0S Parte 2
 
 En el siguiente video explico como acceder a la web de Longhorn y darle un toque de seguridad:
 
-Revisaros el Video en Youtube , además os dejo el código usado:
+Revisaros el Video en Youtube , además os dejo el código usado: https://youtu.be/WdZe6vT1e08
 
 Os dejo el código para crear el ingress para Longhorn, para aplicarlo usad: 
 
