@@ -2,7 +2,7 @@
 
 En el siguiente video explico como configurar el Backup en Longhor. También hablo sobre los Snapshots
 
-Revisaros el Video en Youtube , además os dejo el código usado: 
+Revisaros el Video en Youtube , además os dejo el código usado: https://youtu.be/_cfzy87eGjY
 
 Para configurar el destino de backup. Tenemos que crear un secreto con el AccessKey y SecretKey del Bucket y el EndPoint del S3 que uséis. En mi caso uso Minio.
 
