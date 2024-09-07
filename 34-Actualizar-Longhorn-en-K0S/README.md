@@ -1,8 +1,8 @@
 34-Almacenamiento-con-Longhorn-en-K0S Parte 5
 
-En el siguiente video explico como actualizar LongHorn en K0S: https://youtu.be/1Ncn6b1BWdw
+En el siguiente video explico como actualizar LongHorn en K0S.
 
-Revisaros el Video en Youtube , además os dejo el código usado: 
+Revisaros el Video en Youtube , además os dejo el código usado:
 
 Para actualizar Longhorn primero de todo tenéis que leeros en la página oficial si vuestra versión es compatible con la nueva versión a la que queréis actualizar.
 
