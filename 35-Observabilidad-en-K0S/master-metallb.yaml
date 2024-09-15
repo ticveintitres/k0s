@@ -1,0 +1,40 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: master-prometheus
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.23.23.102/32 # Aqui la IP que quiero que tenga siempre Prometheus
+  autoAssign: true
+  serviceAllocation:
+    namespaces:
+    - master-prometheus
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: master-grafana
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.23.23.103/32 # Aqui la IP que quiero que tenga siempre Grafana
+  autoAssign: true
+  serviceAllocation:
+    namespaces:
+    - master-grafana
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: production
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - production # Este lo explico en el video https://youtu.be/-ispqFUu2Yg
+  - ingress-nginx # Este lo explico en el video https://youtu.be/9d65SNeuzu0
+  - kubernetes-dashboard # Este lo explico en el video https://youtu.be/89lsxUc7tL4
+  - master-prometheus
+  - master-grafana
+  interfaces:
+  - enp2s0.23

@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cliente-prometheus
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus-sa
+  namespace: cliente-prometheus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus-rol
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - pods
+  verbs:
+  - list
+  - get
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus-rol-bind
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus-rol
+subjects:
+- kind: ServiceAccount
+  name: prometheus-sa
+  namespace: cliente-prometheus
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-agent
+  namespace: cliente-prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-agent
+  template:
+    metadata:
+      labels:
+        app: prometheus-agent
+    spec:
+      serviceAccountName: prometheus-sa
+      containers:
+        - name: prometheus-agent
+          image: prom/prometheus:v2.54.1
+          args:
+            - "--config.file=/etc/prometheus/prometheus-agent.yml"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-agent-config
+              mountPath: /etc/prometheus
+      volumes:
+        - name: prometheus-agent-config
+          configMap:
+            name: prometheus-agent-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-agent-config
+  namespace: cliente-prometheus
+data:
+  prometheus-agent.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+      - job_name: 'kubernetes-nodes'
+        kubernetes_sd_configs:
+          - role: node
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+          - role: pod
+    remote_write:
+      - url: "http://prometheus.ticveintitres.local:9090/api/v1/write"
