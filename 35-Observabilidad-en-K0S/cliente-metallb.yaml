@@ -1,0 +1,39 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: cliente-prometheus
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.23.23.104/32 # Aqui la IP que quiero que tenga siempre Prometheus exporter
+  autoAssign: true
+  serviceAllocation:
+    namespaces:
+    - cliente-prometheus
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: cliente-metrics
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.23.23.105/32 # Aqui la IP que quiero que tenga siempre kube-state-metrics
+  autoAssign: true
+  serviceAllocation:
+    namespaces:
+    - cliente-metrics
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: production
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - production # Este lo explico en el video https://youtu.be/-ispqFUu2Yg
+  - ingress-nginx # Este lo explico en el video https://youtu.be/9d65SNeuzu0
+  - cliente-prometheus
+  - cliente-metrics
+  interfaces:
+  - ens192
