@@ -14,15 +14,25 @@ kind: ClusterRole
 metadata:
   name: prometheus-rol
 rules:
-- apiGroups:
-  - ""
+- apiGroups: [""]
   resources:
   - nodes
+  - nodes/metrics
+  - services
+  - endpoints
   - pods
-  verbs:
-  - list
-  - get
-  - watch
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources:
+  - configmaps
+  verbs: ["get"]
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs: ["get", "list", "watch"]
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -86,3 +96,17 @@ data:
           - role: pod
     remote_write:
       - url: "http://prometheus.ticveintitres.local:9090/api/v1/write"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-agent
+  namespace: cliente-prometheus
+spec:
+  ports:
+  - port: 9090
+    protocol: TCP
+    targetPort: 9090
+  selector:
+    app: prometheus-agent
+  type: ClusterIP

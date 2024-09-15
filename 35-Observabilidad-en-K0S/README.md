@@ -38,6 +38,11 @@ kubectl apply -f cliente-prometheus.yaml
 
 El resto de la explicación podéis verla en el video.
 
+Os dejo ID comunes para Grafana
+
+Node Exporter Full (ID: 1860)
+Etcd Dashboard (ID: 3070)
+
 Fácil y sencillo, más en mi canal 👍
 
 https://www.youtube.com/@ticveintitres
