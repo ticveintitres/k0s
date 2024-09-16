@@ -2,7 +2,7 @@
 
 En el siguiente video explico como configurar un stack entero de observabilidad: 
 
-Revisaros el Video en Youtube , además os dejo el código usado:
+Revisaros el Video en Youtube , además os dejo el código usado: https://youtu.be/WebD4pAjm7I
 
 Ejecutar en el Cluster Maestro:
 
@@ -33,7 +33,9 @@ Ejecutar en el Cluster Cliente:
 En el cluster cliente , hay que instalar el agente de Prometheus para que mande contenido al servidor maestro:
 
 ```
+kubectl apply -f cliente-metallb.yaml
 kubectl apply -f cliente-prometheus.yaml
+kubectl apply -f cliente-metrics.yaml
 ```
 
 El resto de la explicación podéis verla en el video.
@@ -41,7 +43,7 @@ El resto de la explicación podéis verla en el video.
 Os dejo ID comunes para Grafana
 
 Node Exporter Full (ID: 1860)
-Etcd Dashboard (ID: 3070)
+Kubernetes All-in-One (ID: 6417)
 
 Fácil y sencillo, más en mi canal 👍
 
