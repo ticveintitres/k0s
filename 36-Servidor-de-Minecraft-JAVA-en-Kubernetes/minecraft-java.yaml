@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: minecraft # Nombre del NAMESPACE
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minecraft-pvc
+  namespace: minecraft
+spec:
+  accessModes:
+    - ReadWriteOnce # Puedes hacerlo RWX, yo como solo despliego un pod, elegi esta opcion RWO
+  resources:
+    requests:
+      storage: 20Gi # 20GB no esta nada mal para servidores normalitos
+  storageClassName: longhorn #Recordad poner la storageClassName con la que trabajeis
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft # Pon el nombre que quieras
+  namespace: minecraft
+spec:
+  replicas: 1 #Como solo es un pod, y el PV es en RWO solo pongo una replica
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+      - name: minecraft
+        image: gameservermanagers/gameserver:mc #Esta es la imagen de LGSM para el servidor de Minecraft JAVA
+        ports:
+        - containerPort: 25565 #Puerto de Minecraft
+          protocol: TCP
+        - containerPort: 25575 #Puerto de gestion para rcon
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /data #Se monta en /data para que asi puedas manipular el servidor y aplicar cambios.
+          name: minecraft-datos
+      volumes:
+      - name: minecraft-datos
+        persistentVolumeClaim:
+          claimName: minecraft-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft-servicio
+  namespace: minecraft
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 25565
+      targetPort: 25565
+      name: minecraft
+    - protocol: TCP
+      port: 25575
+      targetPort: 25575
+      name: rcon
+  selector:
+    app: minecraft
