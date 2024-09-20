@@ -1,6 +1,6 @@
 36-Servidor de Minecraft JAVA en Kubernetes
 
-En el siguiente video explico como desplegar un servidor de Minecraft JAVA utilizando la imagen de LGSM:
+En el siguiente video explico como desplegar un servidor de Minecraft JAVA utilizando la imagen de LGSM: https://youtu.be/GoSOqfJbTXA
 
 Revisaros el Video en Youtube , además os dejo el código usado: 
 
