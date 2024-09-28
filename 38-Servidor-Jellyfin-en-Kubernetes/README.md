@@ -1,4 +1,4 @@
-37-Servidor Jellyfin en Kubernetes
+38-Servidor Jellyfin en Kubernetes
 
 En el siguiente video explico como desplegar un servidor de Jellyfin en Kubernetes: 
 
