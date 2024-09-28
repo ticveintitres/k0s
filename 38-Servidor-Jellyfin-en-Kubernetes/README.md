@@ -9,7 +9,7 @@ DESPLIEGUE SENCILLO
 Se trata de desplegar un pod y exponer el puerto de Minecraft.
 
 ```
-kubectl run minecraft --image=jellyfin/jellyfin:2024092305
+kubectl run jellyfin --image=jellyfin/jellyfin:2024092305
 kubectl expose pod jellyfin --type=LoadBalancer --port=8096
 ```
 
@@ -23,7 +23,6 @@ Es recomendable utilizar 3 PVs como mínimo, donde uno guardará la información
 ```
 kubectl apply -f jellyfin.yaml
 ```
-Con esto tenemos mas control sobre que datos vamos a guardar y tenemos la posibilidad de luego realizar copias de seguridad del PV, además de la persistencia.
 
 El resto de la explicación podéis verla en el video.
 
