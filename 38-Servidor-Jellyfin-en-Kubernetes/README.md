@@ -1,6 +1,6 @@
 38-Servidor Jellyfin en Kubernetes
 
-En el siguiente video explico como desplegar un servidor de Jellyfin en Kubernetes: 
+En el siguiente video explico como desplegar un servidor de Jellyfin en Kubernetes: https://github.com/ticveintitres/k0s/tree/main/38-Servidor-Jellyfin-en-Kubernetes
 
 Revisaros el Video en Youtube , además os dejo el código usado: 
 
