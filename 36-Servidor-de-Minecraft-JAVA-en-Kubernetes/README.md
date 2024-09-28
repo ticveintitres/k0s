@@ -17,7 +17,7 @@ Este método es sencillo pero no es lo mas adecuado para gestionar luego la infr
 
 DESPLIEGUE AVANZADO
 
-Para este método, os dejo el fichoer YAML con los objetos a desplegar. Para ello se desplegará un NAMESPACE, un PVC que solicite a LONGHORN un PV , un DEPLOYMENT donde se configura la imagen y por último un SERVICE para exponer
+Para este método, os dejo el fichero YAML con los objetos a desplegar. Para ello se desplegará un NAMESPACE, un PVC que solicite a LONGHORN un PV , un DEPLOYMENT donde se configura la imagen y por último un SERVICE para exponer
 
 ```
 kubectl apply -f minecraft-java.yaml
