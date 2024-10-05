@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gatos
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gatos-config
+  namespace: gatos
+data:
+  index.html: |
+    <html>
+    <head>
+    <title>Somos Isis & Totoro</title>
+    </head>
+    <body>
+    <h1>HOLA</h1>
+    <h2> Yo soy Isis </h2>
+    <p><img src="imagen.jpg" alt="Imagen"></p>
+    <h2> Yo soy Totoro </h2>
+    <p><img src="imagen.jpg" alt="Imagen"></p>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gatos
+  name: gatos-deployment
+  namespace: gatos
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gatos
+  template:
+    metadata:
+      labels:
+        app: gatos
+    spec:
+      containers:
+      - image: httpd:latest
+        name: gatos
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+        volumeMounts:
+        - mountPath: /usr/local/apache2/htdocs
+          name: gatos
+      volumes:
+      - name: gatos
+        configMap:
+          name: gatos-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gatos
+  name: gatos-service
+  namespace: gatos
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: gatos
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/issuer: "issuer" # aqui hay que añadir o bien cert-manager.io/issuer o certmanager.io/cluster-issuer , y el nombre del objeto.
+  labels:
+    app: gatos
+  name: gatos-ingress
+  namespace: gatos
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ingress.isistotoro.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: gatos-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - ingress.isistotoro.com
+    secretName: gatos-secret

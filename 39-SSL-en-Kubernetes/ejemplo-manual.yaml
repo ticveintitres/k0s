@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webpatata
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webpatata
+  namespace: webpatata
+data:
+  index.html: |
+    <html>
+    <head>
+    <title>Soy una patata</title>
+    </head>
+    <body>
+    <h1>HOLA</h1>
+    <h2> Soy una patata </h2>
+    <p><img src="https://thumbs.dreamstime.com/z/patata-con-los-ojos-49663753.jpg" alt="Aqui deberia salir una patata"></p>
+    </body>
+    </html>
+---
+apiVersion: v1
+data:
+  tls.crt: CERTIFICADO EN FORMATO BASE64
+  tls.key: CLAVE EN FORMATO BASE64
+kind: Secret
+metadata:
+  name: webpatata
+  namespace: webpatata
+type: kubernetes.io/tls
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webpatata
+  name: webpatata
+  namespace: webpatata
+spec:
+  selector:
+    matchLabels:
+      app: webpatata
+  template:
+    metadata:
+      labels:
+        app: webpatata
+    spec:
+      containers:
+      - image: httpd:latest
+        name: webpatata
+        volumeMounts:
+        - mountPath: /usr/local/apache2/htdocs
+          name: webpatata
+      volumes:
+      - name: webpatata
+        configMap:
+          name: webpatata
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: webpatata
+  name: webpatata
+  namespace: webpatata
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: webpatata
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: webpatata
+  name: webpatata
+  namespace: webpatata
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ingress.soyunapatata.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: webpatata
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - ingress.soyunapatata.com
+    secretName: webpatata
