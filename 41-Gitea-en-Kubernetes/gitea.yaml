@@ -14,6 +14,7 @@ spec:
   resources:
     requests:
       storage: 20Gi
+  storageClassName: longhorn
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -26,6 +27,7 @@ spec:
   resources:
     requests:
       storage: 5Gi
+  storageClassName: longhorn
 ---
 apiVersion: apps/v1
 kind: Deployment
