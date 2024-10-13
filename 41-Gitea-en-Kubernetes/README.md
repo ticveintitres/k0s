@@ -1,6 +1,6 @@
 41 - Gitea en Kubernetes
 
-En el siguiente video explico como configurar un repositorio GIT usando GITEA:
+En el siguiente video explico como configurar un repositorio GIT usando GITEA: https://youtu.be/DSrTinujQ8g
 
 Revisaros el Video en Youtube , además os dejo el código usado: 
 
