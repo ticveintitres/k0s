@@ -74,6 +74,15 @@ spec:
             secretKeyRef:
               name: gitea-db-secret
               key: GITEA_DB_PASSWD
+        livenessProbe:
+          httpGet:
+            path: /api/healthz
+            port: http
+          initialDelaySeconds: 200
+          timeoutSeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
         volumeMounts:
         - name: gitea-data
           mountPath: /data
