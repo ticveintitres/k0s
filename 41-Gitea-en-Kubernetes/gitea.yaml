@@ -58,7 +58,7 @@ spec:
         - name: DB_TYPE
           value: "mysql"
         - name: HOST
-          value: "db:3306"
+          value: "mysql:3306"
         - name: NAME
           valueFrom:
             secretKeyRef:
