@@ -1,6 +1,6 @@
 48 - Horizontal Pod Autoscaler
 
-En el siguiente video explico configurar de forma sencilla el Horizontal Pod Autoscaler usando un cluster de K0S: 
+En el siguiente video explico configurar de forma sencilla el Horizontal Pod Autoscaler usando un cluster de K0S: https://youtu.be/eR6_9viB_3s
 
 Revisaros el Video en Youtube , además os dejo el código usado: 
 
