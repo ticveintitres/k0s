@@ -11,9 +11,9 @@ kubectl apply -f hpa-ejemplo.yaml
 ```
 Para realizar el BenchMark instalar las apache2-utils
 
-´´´
+```
 apt install -y apache2-utils
-´´´
+```
 
 Y este el comando para realizar el BenchMark
 
