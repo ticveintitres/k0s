@@ -1,6 +1,6 @@
 50 - Instalando Minio Básico para probar
 
-En el siguiente video explico como instalar MinIO de forma sencilla para probar usando un cluster de K0S: 
+En el siguiente video explico como instalar MinIO de forma sencilla para probar usando un cluster de K0S: https://youtu.be/cE71z5IsO7Q
 
 Revisaros el Video en Youtube , además os dejo el código usado: 
 
