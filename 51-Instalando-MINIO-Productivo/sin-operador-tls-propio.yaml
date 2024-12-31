@@ -25,8 +25,8 @@ metadata:
   name: minio-secret
   namespace: minio
 data:
-  MINIO_ACCESS_KEY: dGljdmVpbnRpdHJlcw==
-  MINIO_SECRET_KEY: dGljdmVpbnRpdHJlcw==
+  user: dGljdmVpbnRpdHJlcw==
+  pass: dGljdmVpbnRpdHJlcw==
 ---
 # Este es el STATEFULSET que usaremos para desplegar MINIO de forma distribuida.
 apiVersion: apps/v1
@@ -55,13 +55,13 @@ spec:
         - name: MINIO_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: MINIO_ACCESS_KEY
-              value: user
+              name: minio-secret
+              key: user
         - name: MINIO_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: MINIO_SECRET_KEY
-              value: pass
+              name: minio-secret
+              key: pass
         image: minio/minio:RELEASE.2024-12-18T13-15-44Z # Para variar del otro fichero, use la de DockerHub
         args: # En los argumentos, al ser distribuido inclui a mano las resoluciones internas de Kubernetes para los PODS, sino no tira.
         - server
