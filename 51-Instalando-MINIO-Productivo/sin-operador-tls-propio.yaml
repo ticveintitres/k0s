@@ -1,0 +1,150 @@
+# Script realizado con Amor por:
+# Alejandro Martinez Capilla
+# Comenzamos con la Ingeniería Inversa a MINIO
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: minio # Facil y sencillo
+---
+# Este es el Secret TLS con los certificados autofirmados. También pueden ser certificados expedidos por una entidad certificadora. En mi caso, autofirmados
+apiVersion: v1
+data:
+  tls.crt: El CRT en BASE64 # No os iba a poner el minio, jaja.
+  tls.key: La Key en BASE64 # No os iba a poner el minio, jaja.
+  ca.crt: La CA en BASE64 # No os iba a poner el minio, jaja.
+kind: Secret
+metadata:
+  name: minio-tls
+  namespace: minio
+type: kubernetes.io/tls
+---
+# Este secreto con las claves de acceso Web
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-secret
+  namespace: minio
+data:
+  MINIO_ACCESS_KEY: dGljdmVpbnRpdHJlcw==
+  MINIO_SECRET_KEY: dGljdmVpbnRpdHJlcw==
+---
+# Este es el STATEFULSET que usaremos para desplegar MINIO de forma distribuida.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minio
+  namespace: minio
+  labels:
+     app: minio
+spec:
+  selector:
+    matchLabels:
+      app: minio
+  serviceName: minio # Este es el servicio HeadLess que crearemos para el Statefulset, mas adelante.
+  replicas: 3 # Por defecto 3 , porque solo tengo 3 nodos, pero por defecto 3. Sino para que quereis un sistema distribuido.
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        env: # Aqui las variables de MINIO, añadi la de la region para los buckets y los accesos que vienen del secreto creado arriba.
+        - name: MINIO_REGION_NAME
+          value: "minio"
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: MINIO_ACCESS_KEY
+              value: user
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: MINIO_SECRET_KEY
+              value: pass
+        image: minio/minio:RELEASE.2024-12-18T13-15-44Z # Para variar del otro fichero, use la de DockerHub
+        args: # En los argumentos, al ser distribuido inclui a mano las resoluciones internas de Kubernetes para los PODS, sino no tira.
+        - server
+        - http://minio-0.minio.minio.svc.cluster.local/datos # nombrepod.servicio.namaspace.svc.cluster.local/rutadelpersistentvolume
+        - http://minio-1.minio.minio.svc.cluster.local/datos
+        - http://minio-2.minio.minio.svc.cluster.local/datos
+        - --console-address=:9001 # Para poder acceder via WEB
+        ports: # Los puertos para la API y la consola.
+        - containerPort: 9000
+          protocol: TCP
+          name: api
+        - containerPort: 9001
+          protocol: TCP
+          name: console
+        volumeMounts:
+        - name: datos
+          mountPath: /datos
+  volumeClaimTemplates:
+  - metadata:
+      name: datos
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: # La storageClass que yo uso, poned la vuestra.
+      resources:
+        requests:
+          storage: 4Gi
+---
+# Este es el servicio que usaremos para acceder a Longhorn. Es ClusterIP porque usaré un Ingress.
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-service
+  namespace: minio
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9001
+      targetPort: 9001
+      protocol: TCP
+  selector:
+    app: minio
+---
+# Este servicio es vital para que funcione el Statefulset, es un servicio Headless, declaro el puerto de la API y consola.
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: minio
+  labels:
+   app: minio
+spec:
+  clusterIP: None
+  ports:
+    - port: 9000
+      name: minio
+    - port: 9001
+      name: console
+  selector:
+    app: minio
+---
+# Y por último el Ingress, sencillo.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-ingress
+  namespace: minio
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 5t
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - minio1.ticveintitres.local
+      secretName: minio-tls
+  rules:
+    - host: minio1.ticveintitres.local
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: minio-service
+                port:
+                  number: 9001

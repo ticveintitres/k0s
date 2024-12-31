@@ -1,0 +1,162 @@
+# Script realizado con Amor por:
+# Alejandro Martinez Capilla
+apiVersion: cert-manager.io/v1 # Este objeto de certmanager nos permite solicitar certificados de forma centralizada
+kind: ClusterIssuer # Mirate este video para aprender sobre certificados TLS en Kubernetes: https://youtu.be/L-MQ-cU6MEc
+metadata:
+  name: letsencrypt-prod # Ponle el nombre que quieras
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory # Puedes usar este o el de Desarrollo https://acme-v02.api.letsencrypt.org/directory
+    email: tumail@tudominio.com # Pon tu correo electronico para expedir un certificado con Lets Encrypt
+    privateKeySecretRef:
+      name: letsencrypt-prod # Aqui va el nombre que le pusiste al ClusterIssuer, recuerda.
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: nginx # Si estas usando NGINX INGRESS CONTROLLER poned nginx, si es otro pues el que esteis usando como Ingress Controlelr
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: minio # Simple , minio
+---
+apiVersion: v1 # En este secreto se guardan las claves de root, el modo de almacenamiento y si usa el navegador. Este secreto aunque esta en texto plano, se usa junto con un InitContainer para inyectarlo al contenedor de Minio.
+kind: Secret # Este secreto luego se añade en el Statefulset como una variable de minio , que aloja estas variables en la ruta /tmp del contenedor
+metadata:
+  name: storage-configuration
+  namespace: minio
+stringData: # Cambia los valores de abajo referentes al usuario y contraseña, no seas COPYPASTE
+  config.env: |-
+    export MINIO_ROOT_USER="minio" 
+    export MINIO_ROOT_PASSWORD="minio123"
+    export MINIO_STORAGE_CLASS_STANDARD="EC:2"
+    export MINIO_BROWSER="on"
+type: Opaque
+---
+apiVersion: v1 # Este secreto guarda las claves para acceder via WEB a minio
+data:
+  CONSOLE_ACCESS_KEY: dGljdmVpbnRpdHJlcw== # Esta en BASE 64 "ticveintitres"
+  CONSOLE_SECRET_KEY: dGljdmVpbnRpdHJlcw== # Esta en BASE 64 "ticveintitres"
+kind: Secret
+metadata:
+  name: storage-user
+  namespace: minio
+type: Opaque
+---
+apiVersion: minio.min.io/v2 # Este es un objeto propio de MINIO, que se despliega junto con el operador, es un CRD de MINIO, para desplegar el entorno Productivo.
+kind: Tenant
+metadata:
+  annotations:
+    prometheus.io/path: /minio/v2/metrics/cluster # Esta parte por si quereis scrapear datos con Prometheus.
+    prometheus.io/port: "9000"
+    prometheus.io/scrape: "true"
+  labels:
+    app: minio
+  name: minio # Este sera el primer prefijo del nombre de los pods , ejemplo minio-ejemplo-0
+  namespace: minio
+spec:
+  certConfig: {}
+  configuration:
+    name: storage-configuration # Esta parte de configuracion es el primer secreto que configuramos arriba, que luego inyectara el InitContainer
+  env: [] # Aquí teoricamente deberian ir las variables de URL que tanto dice MINIO que hay que poner para que funcione, pero que no funciona. Añadid si queréis las variables y probad.
+  externalCaCertSecret: [] # Si usais CertManager para que autofirme certificados o usais un ACME diferente a LetsEncrypt.
+  externalCertSecret: [] # Si usais CertManager para que autofirme certificados o usais un ACME diferente a LetsEncrypt.
+  externalClientCertSecrets: []
+  features:
+    bucketDNS: false # Si quereis resolver los buckets por DNS, false por defecto
+    domains: {}
+  image: quay.io/minio/minio:RELEASE.2024-10-02T17-50-41Z # Esta es la imagen oficial, que tambien la tenéis en DockerHub, a vuestro gusto, podéis usar la de vuestro registry privado.
+  imagePullSecret: {}
+  mountPath: /export
+  podManagementPolicy: Parallel
+  pools: # Configuracion del grupo de pods del Statefulset que desplegara
+  - affinity: # Por defecto MInio, necesita tener 3 nodos, porque intentará desplegar 1 pods en cada nodo, por eso del HA y esas cosas, podéis hacer la afinidad que querais.
+      nodeAffinity: {} 
+      podAffinity: {}
+      podAntiAffinity: {}
+    containerSecurityContext: # Esta parte de aqui, para que el contenedor no tenga permisos de root, el operador creara una ServiceAccount con su Role y RoleBinding y lo añadira al Statefulset
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    name: productivo # Este nombre es la siguiente parte del nombre de los pods, ejemplo: minio-productivo-0
+    nodeSelector: {}
+    resources: {}
+    securityContext: # Privilegios de Contenedor
+      fsGroup: 1000
+      fsGroupChangePolicy: OnRootMismatch
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+    servers: 3 # Por defecto MINIO tiene 4, osea, desplegara 4 pods, yo puse 3, porque solo tengo 3 nodos y no me apetecia poner 4.
+    tolerations: []
+    topologySpreadConstraints: []
+    volumeClaimTemplate: # La parte de los Persistent Volume
+      apiVersion: v1
+      kind: persistentvolumeclaims
+      metadata: {}
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi # MINIO pone por defecto 1TB
+        storageClassName: longhorn # La storageClass que yo uso, poned la vuestra.
+      status: {}
+    volumesPerServer: 3 # MINIO por defecto pone 4, me parecia demasiado. Este valor son los Persistent Volume que montara cada pod del Statefulset. 3 pods por 3 PV, igual 9 PV de 5Gi, ¿entendeis?
+  priorityClassName: ""
+  requestAutoCert: false # MINIO por defecto lo tiene en "true", ya que el operador firma los certificados. Yo lo puse en "false" ya que Cert-Manager junto con Lets Encrypt serán quien los firme
+  serviceAccountName: ""
+  serviceMetadata:
+    consoleServiceAnnotations: {}
+    consoleServiceLabels: {}
+    minioServiceAnnotations: {}
+    minioServiceLabels: {}
+  subPath: ""
+  users: # El usuario del segundo Secret
+  - name: storage-user
+---
+# Hasta aquí la parte que MINIO te dice que es la BASE, todo el código que viene ahora son añadidos. Porque MINIO por defecto te desplega un entorno sin salida al exterior , te tienes
+# que apañar tu para exponerlo. Que majos estos de MINIO.
+# Si os fijáis es un INGRESS sencillo donde le indico que utilice el ClusterIssuer creado al principio que apunta a Lets Encrypt para solicitar los certificados TLS, que luego
+# se añadiran al Secret "minio-tls". Este secret luego el operador lo inyecta en el contenedor principal en "/tmp/certs"
+apiVersion: networking.k8s.io/v1 
+kind: Ingress
+metadata:
+  name: minio-ingress
+  namespace: minio
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - minio.tudominio.com # Cambialo, no seas COPYPASTE
+        - console.tudominio.com # Cambialo, no seas COPYPASTE
+      secretName: tenant-tls
+  rules:
+    - host: minio.tudominio.com # Cambialo, no seas COPYPASTE
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 80
+    - host: console.tudominio.com # Cambialo, no seas COPYPASTE
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: minio-console
+                port:
+                  number: 9090
