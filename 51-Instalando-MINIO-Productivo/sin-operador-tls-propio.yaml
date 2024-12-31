@@ -85,7 +85,7 @@ spec:
     spec:
       accessModes:
         - ReadWriteOnce
-      storageClassName: # La storageClass que yo uso, poned la vuestra.
+      storageClassName: longhorn # La storageClass que yo uso, poned la vuestra.
       resources:
         requests:
           storage: 4Gi

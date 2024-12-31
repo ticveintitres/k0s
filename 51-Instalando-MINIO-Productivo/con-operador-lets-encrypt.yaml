@@ -6,7 +6,7 @@ metadata:
   name: letsencrypt-prod # Ponle el nombre que quieras
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory # Puedes usar este o el de Desarrollo https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory # Puedes usar este o el de Desarrollo https://acme-staging-v02.api.letsencrypt.org/directory
     email: tumail@tudominio.com # Pon tu correo electronico para expedir un certificado con Lets Encrypt
     privateKeySecretRef:
       name: letsencrypt-prod # Aqui va el nombre que le pusiste al ClusterIssuer, recuerda.

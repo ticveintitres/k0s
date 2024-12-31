@@ -1,6 +1,6 @@
 51 - Instalando Minio Productivo
 
-En el siguiente video explico como instalar MinIO para un entorno productivo con certificados TLS, usando un cluster de K0S: 
+En el siguiente video explico como instalar MinIO para un entorno productivo con certificados TLS, usando un cluster de K0S: https://youtu.be/Tb6tMuJvHYc
 
 Revisaros el Video en Youtube , además os dejo el código usado: 
 
