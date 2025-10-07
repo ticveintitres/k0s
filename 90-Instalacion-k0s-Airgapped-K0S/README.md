@@ -23,6 +23,7 @@ scp image-bundle.tar root@192.168.88.39:/root/image-bundle.tar
 ```
 
 CONTROLPLANE 1
+
 En el nodo Controlplane ejecutar lo siguiente para arrancar el Cluster:
 
 Crear el directorio donde van la paquetería y copiar los datos a ella
@@ -57,6 +58,7 @@ scp token-file root@192.168.88.39:/root/token-file
 
 
 WORKER 1
+
 En el nodo Worker ejecutar lo siguiente para arrancar el Cluster:
 
 Crear el directorio donde van la paquetería y copiar los datos a ella
