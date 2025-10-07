@@ -18,8 +18,8 @@ k0s airgap bundle-artifacts -v -o image-bundle.tar < airgap-images.txt
 Mover los ficheros a cada uno de los nodos de Kubernetes, podeis usar como ejemplo este comando, solamente cambiar la IP por las vuestras.
 
 ```
-scp image-bundle.tar root@192.168.88.38:/root/image-bundle.tar
-scp image-bundle.tar root@192.168.88.39:/root/image-bundle.tar
+scp image-bundle.tar root@192.168.0.38:/root/image-bundle.tar
+scp image-bundle.tar root@192.168.0.39:/root/image-bundle.tar
 ```
 
 CONTROLPLANE 1
@@ -53,7 +53,7 @@ k0s token create --role=worker --expiry=24h  > token-file
 Mover el Token al Nodo Worker
 
 ```
-scp token-file root@192.168.88.39:/root/token-file
+scp token-file root@192.168.0.39:/root/token-file
 ```
 
 
