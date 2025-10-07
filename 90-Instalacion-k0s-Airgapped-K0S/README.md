@@ -1,14 +1,14 @@
 90 - Instalación de K0S en modo Airgapped por TicVeintitres
 
-En el siguiente video explico como instalar un pequeño cluster de K0S en modo Airgap o Offline, para entornos sin acceso a Internet: 
+En el siguiente video explico como instalar un pequeño cluster de K0S en modo Airgap o Offline, para entornos sin acceso a Internet: https://youtu.be/2DaOqY3hR0s
 
 Revisaros el Video en Youtube , además os dejo el código usado: 
 
 Os dejo las instrucciones:
 
-Desde una maquina Linux con Internet ejecutad lo siguiente:
+MAQUINA CON INTERNET
 
-Estos dos comandos descargará la paquetería para K0S
+Estos dos comandos descargarán la paquetería para K0S
 
 ```
 k0s airgap list-images --all > airgap-images.txt
